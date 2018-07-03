@@ -7,6 +7,10 @@
     "jayson": "^2.0.6",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "mysql2": "^1.5.3"
+  },
+  "scripts": {
+    "start": "node index"
   }
 }

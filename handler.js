@@ -39,7 +39,12 @@ async function singleHandle(requestBody, token) {
         };
     }
 
-    const result = await (allMethods[method] || allMethods[method + '*'])(...params);
+    const [err, result] = await allMethods[method](params);
+    if (err) {
+        return {
+            error: err,
+        }
+    }
     return {
         jsonrpc: '2.0',
         id,
