@@ -39,7 +39,7 @@ async function singleHandle(requestBody, token) {
         };
     }
 
-    const [err, result] = await allMethods[method](params);
+    const [err, result] = await allMethods[method](params, token);
     if (err) {
         return {
             error: err,

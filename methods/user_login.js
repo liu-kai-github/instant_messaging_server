@@ -1,6 +1,9 @@
 const executeSQL = require('../models/sql');
 const jwt = require('jsonwebtoken');
 
+// session token 期限 单位：毫秒
+const tokenTimeLimit = 1000 * 60 * 15;
+
 module.exports = async ([username, password]) => {
     // console.log(username, password, 'username, password');
     const isExist = await executeSQL('SELECT * FROM user_registered WHERE user_id = ? AND password = ?;', [username, password]);
@@ -14,7 +17,7 @@ module.exports = async ([username, password]) => {
     }
 
     const userOnlineInfo = await executeSQL('SELECT * FROM user_online WHERE user_id = ?;', [username]);
-    if (userOnlineInfo.length !== 0 && (Date.now() - userOnlineInfo[0].recent_access_time <= 1000 * 10)) {
+    if (userOnlineInfo.length !== 0 && (Date.now() - userOnlineInfo[0].recent_access_time <= tokenTimeLimit)) {
         await executeSQL('UPDATE user_online SET recent_access_time = ? WHERE session_token = ?;', [Date.now(), userOnlineInfo[0].session_token]);
         return [
             null,

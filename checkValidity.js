@@ -3,6 +3,9 @@ const errorMap = require('./errorMap');
 const allMethods = require('./allMethods');
 const executeSQL = require('./models/sql');
 
+// session token 期限 单位：毫秒
+const tokenTimeLimit = 1000 * 60 * 15;
+
 /**
  * @description 检查 JsonRPC 数据的有效性
  * @param jsonRPCObj 要检查的对象
@@ -33,7 +36,7 @@ module.exports = async (jsonRPCObj, token) => {
         const userOnlineInfo = await executeSQL('SELECT * FROM user_online WHERE session_token = ?;', [token]);
         if (userOnlineInfo.length === 0) {
             code = -31998;
-        } else if (Date.now() - userOnlineInfo[0].recent_access_time > 1000 * 10) {
+        } else if (Date.now() - userOnlineInfo[0].recent_access_time > tokenTimeLimit) {
             code = -31997;
         }
     }
