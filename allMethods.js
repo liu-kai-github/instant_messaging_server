@@ -24,6 +24,6 @@ const allMethods = fs.readdirSync(__dirname + '/' + 'methods')
         }
     );
 
-console.log(allMethods, 'allJSFiles');
+// console.log(allMethods, 'allJSFiles');
 
 module.exports = allMethods;

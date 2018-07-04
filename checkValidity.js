@@ -30,7 +30,7 @@ module.exports = async (jsonRPCObj, token) => {
     }
 
     if (code === 0 && jsonRPCObj.method.endsWith('*')) {
-        const userOnlineInfo = awaitexecuteSQL('SELECT * FROM user_onlineWHERE session_token = ?;', [token]);
+        const userOnlineInfo = await executeSQL('SELECT * FROM user_online WHERE session_token = ?;', [token]);
         if (userOnlineInfo.length === 0) {
             code = -31998;
         } else if (Date.now() - userOnlineInfo[0].recent_access_time > 1000 * 10) {
