@@ -1,5 +1,7 @@
+const moment = require('moment');
 const errorMap = require('./errorMap');
 const allMethods = require('./allMethods');
+const executeSQL = require('./models/sql');
 
 /**
  * @description 检查 JsonRPC 数据的有效性
@@ -7,7 +9,7 @@ const allMethods = require('./allMethods');
  * @param token
  * @return {*}
  */
-module.exports = (jsonRPCObj, token) => {
+module.exports = async (jsonRPCObj, token) => {
     let code = 0;
 
     const ownPropertyNames = Object.getOwnPropertyNames(jsonRPCObj);
@@ -26,9 +28,16 @@ module.exports = (jsonRPCObj, token) => {
     } else if (jsonRPCObj.method.endsWith('*') && !token) {
         code = -31999;
     }
-    // else if (jsonRPCObj.method.endsWith('*') && token !== '不存在') {
-    //     code = -31998;
-    // }
+
+    if (code === 0 && jsonRPCObj.method.endsWith('*')) {
+        const userOnlineInfo = awaitexecuteSQL('SELECT * FROM user_onlineWHERE session_token = ?;', [token]);
+        if (userOnlineInfo.length === 0) {
+            code = -31998;
+        } else if (Date.now() - userOnlineInfo[0].recent_access_time > 1000 * 10) {
+            code = -31997;
+        }
+    }
+
 
     if (code) {
         return {

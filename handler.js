@@ -30,7 +30,7 @@ async function singleHandle(requestBody, token) {
     const {method, params, id} = requestBody;
 
     // 检验请求是否有效
-    const error = checkValidity(requestBody, token);
+    const error = await checkValidity(requestBody, token);
     if (error) {
         return {
             jsonrpc: '2.0',

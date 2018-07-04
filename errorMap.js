@@ -7,5 +7,6 @@ errorMap.set(-32602, 'Invalid params 无效的参数');       // 无效的方法
 errorMap.set(-32603, 'Internal error 内部错误');         // JSON-RPC内部错误。
 errorMap.set(-31999, 'No permission 没有权限');         // JSON-RPC内部错误。
 errorMap.set(-31998, 'Invalid token 无效 TOKEN');         // JSON-RPC内部错误。
+errorMap.set(-31997, 'Token has expired TOKEN 已过期');         // JSON-RPC内部错误。
 
 module.exports = errorMap;
