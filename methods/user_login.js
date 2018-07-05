@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 const tokenTimeLimit = 1000 * 60 * 15;
 
 module.exports = async ([username, password]) => {
-    // console.log(username, password, 'username, password');
+    // 验证当前用户名和密码是否正确
     const isExist = await executeSQL('SELECT * FROM user_registered WHERE user_id = ? AND password = ?;', [username, password]);
-
+    // 如果用户名或密码不正确
     if (isExist.length === 0) {
         return [
             {
@@ -16,8 +16,11 @@ module.exports = async ([username, password]) => {
         ];
     }
 
+    // 查看当前用户已经在线
     const userOnlineInfo = await executeSQL('SELECT * FROM user_online WHERE user_id = ?;', [username]);
-    if (userOnlineInfo.length !== 0 && (Date.now() - userOnlineInfo[0].recent_access_time <= tokenTimeLimit)) {
+    // 如果用户未在线或者登录过期
+    if (userOnlineInfo.length !== 0 && (Date.now() - userOnlineInfo[0].recent_access_time) <= tokenTimeLimit) {
+        // 更新一下最新的登录时间
         await executeSQL('UPDATE user_online SET recent_access_time = ? WHERE session_token = ?;', [Date.now(), userOnlineInfo[0].session_token]);
         return [
             null,
@@ -29,7 +32,9 @@ module.exports = async ([username, password]) => {
         ];
     }
 
+    // 已当前用户名为基础建立 token
     const sessionToken = jwt.sign({username}, 'shhhhh');
+    // 将用户登录信息存入数据库
     await executeSQL('INSERT INTO user_online (session_token, user_id, recent_access_time) VALUES (?, ?, ?);', [sessionToken, username, Date.now()]);
     return [
         null,
