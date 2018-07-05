@@ -17,7 +17,6 @@ let connection;
  * @returns {Promise<*>}
  */
 async function executeSQL(SQL, variables = []) {
-    // console.log('a%sc', 'b');
     const [rows, fields] = await connection.execute(SQL, variables);
     return rows;
 }
