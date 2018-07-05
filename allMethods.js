@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+// 获取所有服务端在 methods 目录下定义的所有方法
 const allMethods = fs.readdirSync(__dirname + '/' + 'methods')
     .filter(
         (f) => {
@@ -23,7 +24,5 @@ const allMethods = fs.readdirSync(__dirname + '/' + 'methods')
             }
         }
     );
-
-// console.log(allMethods, 'allJSFiles');
 
 module.exports = allMethods;
