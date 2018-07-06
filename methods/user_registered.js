@@ -1,9 +1,9 @@
 const executeSQL = require('../models/sql');
 
-module.exports = async ([username, password]) => {
+module.exports = async ([userID, password]) => {
 
-    console.log(username, password, 'username, password');
-    const isExist = await executeSQL('SELECT user_id from user_registered WHERE user_id = ?', [username]);
+    // console.log(userID, password, 'username, password');
+    const isExist = await executeSQL('SELECT user_id from user_registered WHERE user_id = ?', [userID]);
     console.log(isExist, 'isExist');
     if (isExist.length !== 0) {
         return [
@@ -13,12 +13,12 @@ module.exports = async ([username, password]) => {
         ]
     }
 
-    const result = await executeSQL('INSERT INTO user_registered (user_id, password, registration_time) VALUES (?, ?, ?);', [username, password, Date.now()]);
+    const result = await executeSQL('INSERT INTO user_registered (user_id, password, updated_time) VALUES (?, ?, ?);', [userID, password, Date.now()]);
     console.log(result, 'result');
     return [
         null,
         {
-            username,
+            userID,
             message: '注册成功',
         },
     ];

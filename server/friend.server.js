@@ -6,8 +6,7 @@ const executeSQL = require('../models/sql');
  * @return {Promise<*>}
  */
 async function canBeAddedFriends(userID) {
-    await executeSQL('SELECT user_id FROM user_registered;', []);
-    return userID;
+    return executeSQL('SELECT user_id FROM user_registered WHERE user_id != ?;', [userID]);
 }
 
 module.exports = {
