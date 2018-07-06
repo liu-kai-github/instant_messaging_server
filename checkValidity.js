@@ -2,9 +2,10 @@ const moment = require('moment');
 const errorMap = require('./errorMap');
 const allMethods = require('./allMethods');
 const executeSQL = require('./models/sql');
+const {TOKEN_TIME_LIMIT: tokenTimeLimit} = require('./variables/user');
 
 // session token 期限 单位：毫秒
-const tokenTimeLimit = 1000 * 60 * 15;
+// const tokenTimeLimit = 1000 * 60 * 15;
 
 /**
  * @description 检查 JsonRPC 数据的有效性

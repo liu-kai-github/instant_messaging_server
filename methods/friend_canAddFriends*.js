@@ -1,8 +1,9 @@
 const executeSQL = require('../models/sql');
+const {canBeAddedFriends} = require('../server/friend.server');
 
 module.exports = async ([], userID) => {
     console.log(userID, 'userID');
-    const friendsList = await executeSQL('SELECT user_id FROM user_registered;', []);
+    const friendsList = await canBeAddedFriends(userID);
     console.log(friendsList, 'friendsList');
     return [
         null,
