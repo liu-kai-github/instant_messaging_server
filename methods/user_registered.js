@@ -14,7 +14,7 @@ module.exports = async ([userID, password]) => {
     }
 
     const result = await executeSQL('INSERT INTO user_registered (user_id, password, updated_time) VALUES (?, ?, ?);', [userID, password, Date.now()]);
-    console.log(result, 'result');
+    // console.log(result, 'result');
     return [
         null,
         {
