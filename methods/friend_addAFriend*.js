@@ -3,7 +3,7 @@ const {canBeAddedFriends} = require('../server/friend.server');
 
 module.exports = async ([targetUserID], userID) => {
     const friendsList = await canBeAddedFriends(userID);
-    console.log(friendsList, 'friendsList');
+    // console.log(friendsList, 'friendsList');
     if (!friendsList.find(i => i.user_id === targetUserID)) {
         return [
             {
@@ -13,7 +13,7 @@ module.exports = async ([targetUserID], userID) => {
     }
 
     const alreadyAsked = await executeSQL('SELECT * FROM relation_ask WHERE user_id = ? AND target_id = ?;', [userID, targetUserID]);
-    console.log(alreadyAsked, 'alreadyAsked');
+    // console.log(alreadyAsked, 'alreadyAsked');
     if (alreadyAsked.length !== 0) {
         await executeSQL('UPDATE relation_ask SET updated_time = ? WHERE user_id = ? AND target_id = ?;', [Date.now(), userID, targetUserID]);
         return [
