@@ -1,6 +1,12 @@
 const executeSQL = require('../models/sql');
 const {canBeAddedFriends} = require('../server/friend.server');
 
+/**
+ *
+ * @param targetUserID
+ * @param userID
+ * @return {Promise<*[]>}
+ */
 module.exports = async ([targetUserID], userID) => {
     const friendsList = await canBeAddedFriends(userID);
     // console.log(friendsList, 'friendsList');
@@ -27,6 +33,7 @@ module.exports = async ([targetUserID], userID) => {
     return [
         null,
         {
+            targetUserID,
             message: '已发送请求',
         }
     ]

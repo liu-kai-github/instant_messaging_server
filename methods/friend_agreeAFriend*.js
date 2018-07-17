@@ -1,6 +1,12 @@
 const executeSQL = require('../models/sql');
 const {canBeAddedFriends} = require('../server/friend.server');
 
+/**
+ *
+ * @param targetUserID
+ * @param userID
+ * @return {Promise<*[]>}
+ */
 module.exports = async ([targetUserID], userID) => {
 
     // 查看当前统一的用户，是否发过请求添加该用户
@@ -42,6 +48,7 @@ module.exports = async ([targetUserID], userID) => {
     return [
         null,
         {
+            targetUserID,
             message: '互相添加好友成功',
         }
     ]

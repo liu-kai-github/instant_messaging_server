@@ -1,5 +1,10 @@
 const executeSQL = require('../models/sql');
-
+/**
+ *
+ * @param userID
+ * @param password
+ * @return {Promise<*[]>}
+ */
 module.exports = async ([userID, password]) => {
 
     // console.log(userID, password, 'username, password');
