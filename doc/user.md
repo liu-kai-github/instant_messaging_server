@@ -69,7 +69,7 @@
 ```
 {
 	"jsonrpc": "2.0",
-	"method": "user_registered",
+	"method": "user_login",
 	"id": "1234",
 	"params": ["abc","123456"]
 }
