@@ -3,7 +3,10 @@ const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const cors = require('koa-cors');
 
+require('./socket');
+
 const app = new Koa();
+
 const router = new Router();
 
 const handler = require('./handler');
@@ -26,6 +29,9 @@ app.on('error', function (err) {
 
 app.use(router.routes());
 
-app.listen(8080);
+app.listen(8080, () => {
+    console.log('api listening on *:' + 8080);
+});
+
 
 
